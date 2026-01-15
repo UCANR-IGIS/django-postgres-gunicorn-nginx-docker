@@ -15,12 +15,28 @@ A production-ready Django application setup with Docker, PostgreSQL, Nginx, and 
 
 ```
 django-docker-setup/
-├── django_project/
+├── django_project/          # Main Django project
 │   ├── __init__.py
 │   ├── asgi.py
 │   ├── settings.py
 │   ├── urls.py
 │   └── wsgi.py
+├── myapp/                   # Sample Django app with models
+│   ├── templates/
+│   │   └── myapp/
+│   │       ├── base.html
+│   │       ├── home.html
+│   │       ├── profile_list.html
+│   │       ├── profile_detail.html
+│   │       ├── gallery_list.html
+│   │       └── document_list.html
+│   ├── __init__.py
+│   ├── admin.py            # Admin configurations
+│   ├── apps.py
+│   ├── models.py           # Profile, Document, Gallery models
+│   ├── tests.py
+│   ├── urls.py
+│   └── views.py
 ├── nginx/
 │   ├── Dockerfile
 │   └── nginx.conf
@@ -33,6 +49,17 @@ django-docker-setup/
 ├── requirements.txt
 └── README.md
 ```
+
+## Sample App Features
+
+The included `myapp` demonstrates:
+
+- **Profile Model**: User profiles with image uploads
+- **Gallery Model**: Image gallery with featured images
+- **Document Model**: File uploads and downloads
+- Django admin integration
+- Template examples with responsive design
+- File upload handling with organized storage paths
 
 ## Development Setup
 
@@ -63,6 +90,26 @@ docker-compose exec web python manage.py createsuperuser
 5. Access the application:
 - Django: http://localhost:8000
 - Admin: http://localhost:8000/admin
+
+### Adding Sample Data
+
+1. Create a superuser (if not already done):
+```bash
+docker-compose exec web python manage.py createsuperuser
+```
+
+2. Log in to the admin panel at http://localhost:8000/admin
+
+3. Add sample data:
+   - Go to **Profiles** and add user profiles with images
+   - Go to **Galleries** and upload gallery images
+   - Go to **Documents** and upload documents
+
+4. View the app:
+   - Home page: http://localhost:8000
+   - Profiles: http://localhost:8000/profiles/
+   - Gallery: http://localhost:8000/gallery/
+   - Documents: http://localhost:8000/documents/
 
 ### Development Commands
 
@@ -155,14 +202,42 @@ The setup is configured to handle file uploads:
 
 ### Using Media Files in Your Django App
 
-```python
-# models.py
-from django.db import models
+The included `myapp` demonstrates three file upload models:
 
-class MyModel(models.Model):
-    image = models.ImageField(upload_to='images/')
-    file = models.FileField(upload_to='documents/')
+**1. Profile Model** - User profiles with images:
+```python
+# myapp/models.py
+class Profile(models.Model):
+    name = models.CharField(max_length=200)
+    bio = models.TextField(blank=True)
+    profile_picture = models.ImageField(
+        upload_to='profiles/',
+        blank=True,
+        null=True
+    )
 ```
+
+**2. Gallery Model** - Image gallery:
+```python
+class Gallery(models.Model):
+    title = models.CharField(max_length=200)
+    image = models.ImageField(upload_to='gallery/%Y/%m/')
+    caption = models.TextField(blank=True)
+    is_featured = models.BooleanField(default=False)
+```
+
+**3. Document Model** - File uploads:
+```python
+class Document(models.Model):
+    title = models.CharField(max_length=200)
+    description = models.TextField(blank=True)
+    file = models.FileField(upload_to='documents/%Y/%m/%d/')
+```
+
+All uploaded files are stored in the `media_volume` Docker volume and organized by:
+- **Profiles**: `mediafiles/profiles/`
+- **Gallery**: `mediafiles/gallery/YYYY/MM/`
+- **Documents**: `mediafiles/documents/YYYY/MM/DD/`
 
 ## Nginx Configuration
 
