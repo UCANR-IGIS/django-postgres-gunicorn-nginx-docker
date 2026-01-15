@@ -1,0 +1,45 @@
+{% extends "myapp/base.html" %}
+
+{% block title %}Home - Django Docker App{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1>Welcome to Django Docker Setup</h1>
+    <p style="margin: 1rem 0; font-size: 1.1rem; color: #666;">
+        This is a production-ready Django application with Docker, PostgreSQL, and Nginx.
+    </p>
+
+    <div style="margin-top: 2rem;">
+        <h2 style="margin-bottom: 1rem;">Features</h2>
+        <ul style="list-style: none; padding: 0;">
+            <li style="padding: 0.5rem; margin: 0.5rem 0; background: #ecf0f1; border-radius: 4px;">✅ Django 5.0 with PostgreSQL</li>
+            <li style="padding: 0.5rem; margin: 0.5rem 0; background: #ecf0f1; border-radius: 4px;">✅ Docker & Docker Compose setup</li>
+            <li style="padding: 0.5rem; margin: 0.5rem 0; background: #ecf0f1; border-radius: 4px;">✅ Nginx reverse proxy</li>
+            <li style="padding: 0.5rem; margin: 0.5rem 0; background: #ecf0f1; border-radius: 4px;">✅ Persistent storage for media & static files</li>
+            <li style="padding: 0.5rem; margin: 0.5rem 0; background: #ecf0f1; border-radius: 4px;">✅ File upload handling (images & documents)</li>
+        </ul>
+    </div>
+
+    <div style="margin-top: 2rem;">
+        <h2 style="margin-bottom: 1rem;">Explore the App</h2>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1rem; margin-top: 1rem;">
+            <a href="{% url 'myapp:profile_list' %}" style="display: block; padding: 1.5rem; background: #3498db; color: white; text-decoration: none; border-radius: 8px; text-align: center; transition: background 0.3s;">
+                <h3>Profiles</h3>
+                <p style="margin-top: 0.5rem; opacity: 0.9;">View user profiles with images</p>
+            </a>
+            <a href="{% url 'myapp:gallery_list' %}" style="display: block; padding: 1.5rem; background: #e74c3c; color: white; text-decoration: none; border-radius: 8px; text-align: center; transition: background 0.3s;">
+                <h3>Gallery</h3>
+                <p style="margin-top: 0.5rem; opacity: 0.9;">Browse image gallery</p>
+            </a>
+            <a href="{% url 'myapp:document_list' %}" style="display: block; padding: 1.5rem; background: #2ecc71; color: white; text-decoration: none; border-radius: 8px; text-align: center; transition: background 0.3s;">
+                <h3>Documents</h3>
+                <p style="margin-top: 0.5rem; opacity: 0.9;">View uploaded documents</p>
+            </a>
+        </div>
+    </div>
+
+    <div style="margin-top: 2rem; padding: 1rem; background: #fff3cd; border-left: 4px solid #ffc107; border-radius: 4px;">
+        <p><strong>Getting Started:</strong> Go to <a href="/admin/" style="color: #d35400;">Admin Panel</a> to add profiles, gallery images, and documents.</p>
+    </div>
+</div>
+{% endblock %}

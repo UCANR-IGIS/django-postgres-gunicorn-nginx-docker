@@ -1,0 +1,44 @@
+{% extends "myapp/base.html" %}
+
+{% block title %}{{ profile.name }} - Django Docker App{% endblock %}
+
+{% block content %}
+<div class="container">
+    <a href="{% url 'myapp:profile_list' %}" style="display: inline-block; margin-bottom: 1rem; color: #3498db; text-decoration: none;">
+        ← Back to Profiles
+    </a>
+
+    <div style="display: grid; grid-template-columns: 1fr 2fr; gap: 2rem; margin-top: 1rem;">
+        <div>
+            {% if profile.profile_picture %}
+                <img src="{{ profile.profile_picture.url }}" alt="{{ profile.name }}" 
+                     style="width: 100%; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
+            {% else %}
+                <div style="width: 100%; aspect-ratio: 1; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); display: flex; align-items: center; justify-content: center; color: white; font-size: 5rem; border-radius: 8px;">
+                    {{ profile.name|first|upper }}
+                </div>
+            {% endif %}
+        </div>
+
+        <div>
+            <h1 style="margin-bottom: 1rem;">{{ profile.name }}</h1>
+            
+            {% if profile.bio %}
+                <div style="margin: 1.5rem 0; padding: 1rem; background: #f8f9fa; border-radius: 8px; border-left: 4px solid #3498db;">
+                    <p style="color: #555; white-space: pre-wrap;">{{ profile.bio }}</p>
+                </div>
+            {% endif %}
+
+            <div style="margin-top: 2rem; padding: 1rem; background: #ecf0f1; border-radius: 8px;">
+                <h3 style="margin-bottom: 0.5rem;">Profile Information</h3>
+                <p style="color: #666; margin: 0.5rem 0;">
+                    <strong>Created:</strong> {{ profile.created_at|date:"F d, Y \a\t H:i" }}
+                </p>
+                <p style="color: #666; margin: 0.5rem 0;">
+                    <strong>Last Updated:</strong> {{ profile.updated_at|date:"F d, Y \a\t H:i" }}
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
